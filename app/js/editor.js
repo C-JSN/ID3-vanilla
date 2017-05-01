@@ -18,16 +18,14 @@ amdRequire.config({
 self.module = undefined;
 // workaround monaco-typescript not understanding the environment
 self.process.browser = true;
+const file = fs.readFileSync(path.join(__dirname, '../assets/ID3-templates/scatterPlot.html')).toString();
 amdRequire(['vs/editor/editor.main'], function () {
   let editor = monaco.editor.create(document.getElementById('editor'), {
-    value: [
-      'function x() {',
-      '\tconsole.log("Hello world!");',
-      '}'
-    ].join('\n'),
+    value: file,
     language: 'javascript',
-    theme: "vs-dark",
   });
+  // console.log(editor.value);
+  compile(editor);
 
   window.onresize = () => {
     editor.layout();
@@ -55,8 +53,9 @@ amdRequire(['vs/editor/editor.main'], function () {
   },false);
 
   document.getElementById('save-changes').addEventListener('click',function(){
+      // alert('saveFile!');
       var actualFilePath = document.getElementById("actual-file").value;
-
+      // console.log(actualFilePath);
       if(actualFilePath){
           saveChanges(actualFilePath,editor.getValue());
       }else{
@@ -64,34 +63,38 @@ amdRequire(['vs/editor/editor.main'], function () {
       }
   },false);
 
-  document.getElementById('delete-file').addEventListener('click',function(){
-      var actualFilePath = document.getElementById("actual-file").value;
-
-      if(actualFilePath){
-          deleteFile(actualFilePath);
-          document.getElementById("actual-file").value = "";
-          document.getElementById("content-editor").value = "";
-      }else{
-          alert("Please select a file first");
-      }
-  },false);
+  // document.getElementById('delete-file').addEventListener('click',function(){
+  //     var actualFilePath = document.getElementById("actual-file").value;
+  //
+  //     if(actualFilePath){
+  //         deleteFile(actualFilePath);
+  //         document.getElementById("actual-file").value = "";
+  //         document.getElementById("content-editor").value = "";
+  //     }else{
+  //         alert("Please select a file first");
+  //     }
+  // },false);
 
   document.getElementById('select-file').addEventListener('click',function(){
+
       dialog.showOpenDialog(function (fileNames) {
           if(fileNames === undefined){
               console.log("No file selected");
           }else{
-              document.getElementById("actual-file").value = fileNames[0];
-              readFile(fileNames[0], editor);
+            console.log('Open File!!!');
+            readFile(fileNames[0], editor);
           }
+          // compile(editor);
       });
   },false);
 
-  var code = document.getElementById("code").contentWindow.document;
+
   document.getElementById("editor").onkeyup = function(){
-	    code.open();
-  		code.writeln(editor.getValue());
-		  code.close();
+    compile(editor);
+    // var code = document.getElementById("code").contentWindow.document;
+	  //   code.open();
+  	// 	code.writeln(editor.getValue());
+		//   code.close();
   };
 
   // var code = document.getElementById("code").contentWindow.document;
@@ -144,25 +147,16 @@ function readFile(filepath, editor) {
         }
         editor.setValue(data);
         // document.getElementById("content-editor").value = data;
+        compile(editor);
     });
 }
 
 
 function compile(editor) {
-
-  // var html = value;
-	// var html = document.getElementById("html");
-	// var css = document.getElementById("css");
-	// var js = document.getElementById("js");
   var code = document.getElementById("code").contentWindow.document;
-	// document.body.onkeyup = function(){
   var value = editor.getValue();
-  // console.log(value);
-  // document.getElementById("editor").onkeyup = function(){
-    // console.log(value);
-	    code.open();
-  		code.writeln(value);
-		// code.writeln(html.value+"<style>"+css.value+"</style>"+"<script>" + js.value + "</script>");
-		  code.close();
-  // };
+  code.open();
+	code.writeln(value);
+// code.writeln(html.value+"<style>"+css.value+"</style>"+"<script>" + js.value + "</script>");
+  code.close();
 };

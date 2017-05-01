@@ -18,12 +18,15 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "~1.6.2",
-    "electron-connect": "^0.6.1"
+    "electron-connect": "^0.6.1",
+    "electron-reload": "^1.1.0"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
     "electromon": "^1.0.6",
     "electron-dockable": "^0.9.1",
     "electron-tabs": "^0.6.0",
+    "jquery": "^3.2.1",
     "monaco-editor": "^0.8.3"
   }
 }

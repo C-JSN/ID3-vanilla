@@ -2,100 +2,109 @@
 <html>
 
 <head>
-  <title>ID3</title>
+    <title>ID3</title>
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="../css/photon.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/photon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
-  <!-- Javascript -->
-  <!-- <script src="js/mainmenu.js" charset="utf-8"></script> -->
-  <script src="js/editor.js" charset="utf-8"></script>
-  <!-- <link rel="stylesheet" href="node_modules/electron-tabs/electron-tabs.css"> -->
-  <!-- <script src="./app.js" charset="utf-8"></script> -->
+    <!-- Javascript -->
+    <!-- <script src="js/mainmenu.js" charset="utf-8"></script> -->
+    <script src="js/editor.js" charset="utf-8"></script>
+    <!-- <link rel="stylesheet" href="node_modules/electron-tabs/electron-tabs.css"> -->
+    <!-- <script src="./app.js" charset="utf-8"></script> -->
+    <style>
+      /*.window .pane {
+        background-color: #252426;
+        /*color: white;*/
+      /*}
+
+      .fileSystem {
+        color: red;
+      }*/
+    </style>
 </head>
 
 <body>
-  <div class="window">
+    <div class="window">
 
-    <!-- .toolbar-header sits at the top of your app -->
-    <!-- <header class="toolbar toolbar-header">
-      <h1 class="title">Toolbar Header!</h1>
-    </header> -->
+        <!-- .toolbar-header sits at the top of your app -->
+        <!-- <header class="toolbar toolbar-header">
+            <h1 class="title">Header the tabs</h1>
+        </header> -->
 
-    <!-- Your app's content goes inside .window-content -->
-    <div class="window-content">
-      <div class="pane-group">
-        <div class="pane pane-sm sidebar">
-          <div>
-              <div style="text-align:center;">
-                  <input type="text" placeholder="Please select a file" id="actual-file" disabled="disabled"/>
-                  <input type="button" value="Choose a file" id="select-file"/>
-              </div>
-              <input type="button" id="save-changes" value="Save changes"/>
-              <input type="button" id="delete-file" value="Delete file"/>
-          </div>
-          <hr>
-          <div style="text-align:center;">
-              <input type="button" value="Choose a file" id="create-new-file"/>
-              <input type="button" value="Run" id="run-code"/>
-          </div>
+        <!-- Your app's content goes inside .window-content -->
+        <div class="window-content">
+            <div class="pane-group">
+                <div class="pane pane-sm sidebar">
+                    <nav class="nav-group">
+                        <h5 class="nav-group-title">File System</h5>
+                        <span class="nav-group-item" id="select-file">
+                            <span class="icon icon-folder"></span>Open File
+                        </span>
+                        <span class="nav-group-item" id="save-changes">
+                          <span class="icon icon-download"></span> Save File
+                        </span>
+                        <span class="nav-group-item" id="create-new-file">
+                          <span class="icon icon-doc-text"></span> New File
+                        </span>
+                    </nav>
+                    <!-- <div> -->
+                        <!-- <div style="text-align:center;">
+                            <div id="fileList">
+                            </div> -->
+                            <!-- <button type="btn btn-default" id="select-file">Open File</button> -->
+                            <!-- <button type="btn btn-default" id="save-changes">Delete File</button> -->
+                            <!-- <button type="btn btn-default" id="delete-file">Delete File</button>
+                            <button type="btn btn-default" id="create-new-file">New File</button> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                    <hr>
+                    <ul class="list-group">
+                      <li class="list-group-header">
+                        <h5>Opened Files</h5>
+                      </li>
+                        <li class="list-group-item">
+                          <span class="icon icon-cancel">&nbsp;</span>
+                          <strong class="fileName">Opened File</strong>
+                        </li>
+                        <li class="list-group-item">
+                          <span class="icon icon-cancel">&nbsp;</span>
+                          <strong class="fileName">Opened File</strong>
+                        </li>
+                        <li class="list-group-item">
+                          <span class="icon icon-cancel">&nbsp;</span>
+                          <strong class="fileName">Opened File</strong>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pane">
+                    <div class="tab-group">
+                        <div class="tab-item">
+                            <span class="icon icon-cancel icon-close-tab"></span> Tab
+                        </div>
+                        <div class="tab-item active">
+                            <span class="icon icon-cancel icon-close-tab"></span> Tab active
+                        </div>
+                        <div class="tab-item">
+                            <span class="icon icon-cancel icon-close-tab"></span> Tab
+                        </div>
+                        <div class="tab-item tab-item-fixed">
+                            <span class="icon icon-plus"></span>
+                        </div>
+                    </div>
+                    <div id="editor" style="height: 97vh; margin-bottom: -10px;"></div>
+                </div>
+                <div class="pane" id="view">
+                    <iframe id="code" style="width: 100%; height: 95vh; border: none;"></iframe>
+                </div>
+            </div>
         </div>
-        <div class="pane">
-          <!-- <div class="etabs-tabgroup">
-            <div class="etabs-tabs"></div>
-            <div class="etabs-buttons"></div>
-          </div> -->
-          <div class="etabs-views"></div>
-          <!-- <div style="width: 10%; background: red; display: inline-block;">tab</div>
-          <div style="width: 10%; background: green; display: inline-block;">tab</div>
-          <div style="width: 10%; background: blue; display: inline-block;">tab</div>
-          <div style="width: 10%; background: purple; display: inline-block;">tab</div> -->
-        <div class="etabs-views" id="editor" style="height: 100%">
-        </div>
-      </div>
-        <div class="pane" id="view">
-          <iframe id="code" style="width: 100%; height: 100%"></iframe>
-        </div>
-      </div>
     </div>
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-  <!-- <script>
-  const TabGroup = require("electron-tabs");
-    let tabGroup = new TabGroup();
-    let tab = tabGroup.addTab({
-        title: "Electron",
-        src: "",
-        visible: true
-    });
-  </script> -->
-  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.3/jstree.min.js"></script>
-  <script>
-    $(function () {
-      // 6 create an instance when the DOM is ready
-      $('#jstree').jstree();
-      // 7 bind to events triggered on the tree
-      $('#jstree').on("changed.jstree", function (e, data) {
-        console.log(data.selected);
-      });
-      // 8 interact with the tree - either way is OK
-      $('#tree').on('click', function () {
-        console.log($('#jstree').jstree());
-        // console.log('inside tree');
-        // $('#jstree').jstree(true).select_node('child_node_1');
-        // $('#jstree').jstree('select_node', 'child_node_1');
-        // $.jstree.reference('#jstree').select_node('child_node_1');
-      });
-    });
-</script> -->
 </body>
 <script>
-
-  // You can also require other files to run in this process
-  require('./renderer.js');
-  // require('./js/ipc.js');
-  // require('./js/editor.js')
+    // You can also require other files to run in this process
+    require('./renderer.js');
 </script>
 
 </html>

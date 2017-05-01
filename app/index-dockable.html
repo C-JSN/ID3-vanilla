@@ -1,0 +1,22 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Workspace</title>
+    <style>
+      body {
+        position: absolute;
+        top: 0; bottom: 0; left: 0; right: 0;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+
+  <body>
+    <ui-workspace style="flex: 1;"></ui-workspace>
+
+    <script>
+      require('electron-dockable');
+    </script>
+  </body>
+</html>

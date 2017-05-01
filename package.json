@@ -1,0 +1,29 @@
+{
+  "name": "ide-d3-ide",
+  "version": "1.0.0",
+  "description": "D3 IDE React Broilerplate based on electron-quick-start",
+  "main": "./app/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "C-JSN",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "~1.6.2",
+    "electron-connect": "^0.6.1"
+  },
+  "dependencies": {
+    "electromon": "^1.0.6",
+    "electron-dockable": "^0.9.1",
+    "electron-tabs": "^0.6.0",
+    "monaco-editor": "^0.8.3"
+  }
+}

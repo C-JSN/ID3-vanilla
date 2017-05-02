@@ -18,14 +18,24 @@ amdRequire.config({
 self.module = undefined;
 // workaround monaco-typescript not understanding the environment
 self.process.browser = true;
-const file = fs.readFileSync(path.join(__dirname, '../assets/ID3-templates/scatterPlot.html')).toString();
+
+const onloadFile = fs.readFileSync(path.join(__dirname, '../assets/temp/onload.html')).toString();
+console.log(path.join(__dirname, '../assets/temp/onload.html'));
+
+
+var openedFiles = [];
 amdRequire(['vs/editor/editor.main'], function () {
   let editor = monaco.editor.create(document.getElementById('editor'), {
-    value: file,
+    value: '//write code here',
     language: 'javascript',
+    theme: 'vs-dark',
+    wrappingColumn: 0,
   });
-  // console.log(editor.value);
-  compile(editor);
+
+  var code = document.getElementById("code").contentWindow.document;
+  code.open();
+  code.writeln(onloadFile);
+  code.close();
 
   window.onresize = () => {
     editor.layout();
@@ -34,30 +44,16 @@ amdRequire(['vs/editor/editor.main'], function () {
   // console.log(ipcRenderer.sendSync('synchronous-message', 'ping'))
 
   document.getElementById('create-new-file').addEventListener('click',function(){
-      var content = editor.getValue();
-
-      dialog.showSaveDialog(function (fileName) {
-          if (fileName === undefined){
-              console.log("You didn't save the file");
-              return;
-          }
-
-          fs.writeFile(fileName, content, function (err) {
-              if(err){
-                  alert("An error ocurred creating the file "+ err.message)
-              }
-
-              alert("The file has been succesfully saved");
-          });
-      });
+      const content = '';
+      createNewFile(content);
   },false);
 
   document.getElementById('save-changes').addEventListener('click',function(){
       // alert('saveFile!');
-      var actualFilePath = document.getElementById("actual-file").value;
-      // console.log(actualFilePath);
+      var actualFilePath = openedFiles[0];
+      console.log(actualFilePath);
       if(actualFilePath){
-          saveChanges(actualFilePath,editor.getValue());
+          saveChanges(actualFilePath, editor.getValue());
       }else{
           alert("Please select a file first");
       }
@@ -81,8 +77,11 @@ amdRequire(['vs/editor/editor.main'], function () {
           if(fileNames === undefined){
               console.log("No file selected");
           }else{
-            console.log('Open File!!!');
+            // console.log('Open File!!!');
+            openedFiles = [];
             readFile(fileNames[0], editor);
+            openedFiles.push(fileNames[0]);
+            // console.log(openedFiles);
           }
           // compile(editor);
       });
@@ -91,24 +90,45 @@ amdRequire(['vs/editor/editor.main'], function () {
 
   document.getElementById("editor").onkeyup = function(){
     compile(editor);
-    // var code = document.getElementById("code").contentWindow.document;
-	  //   code.open();
-  	// 	code.writeln(editor.getValue());
-		//   code.close();
   };
 
-  // var code = document.getElementById("code").contentWindow.document;
-  // compile(editor);
-  // document.getElementById('run-code').addEventListener('click',function(){
-  //     // var code = document.getElementById("code").contentWindow.document;
-  //     compile(editor);
-  //     // compile(code, editor.getValue());
-  // },false);
+  document.getElementById("editor").addEventListener('keypress', function(event2) {
+    console.log(event2.ctrlKey);
+    console.log(event2.which);
+    var absolutePath;
+    if (event2.which === 19) {
+      if (!openedFiles[0]) {
+        let content = editor.getValue();
+        createNewFile(content);
+        // editor.setValue(' ');
+      } else {
+        saveChanges(openedFiles[0], editor.getValue());
+      }
+    }
+  })
+
 
   // console.log(editor.getValue());
   // monaco vertical scroll
-  editor.domElement.getElementsByClassName('monaco-scrollable-element')[0].style.width = '100%';
+  editor.domElement.getElementsByClassName('monaco-scrollable-element')[0].style.width = '98%';
 });
+
+function createNewFile(content) {
+  dialog.showSaveDialog(function (fileName) {
+      if (fileName === undefined){
+          console.log("You didn't save the file");
+          return;
+      }
+
+      fs.writeFile(fileName, content, function (err) {
+          if(err){
+              alert("An error ocurred creating the file "+ err.message)
+          }
+
+          alert("The file has been succesfully saved");
+      });
+  });
+}
 
 function saveChanges(filepath,content){
     fs.writeFile(filepath, content, function (err) {

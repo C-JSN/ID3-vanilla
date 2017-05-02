@@ -11,42 +11,81 @@
     <!-- Javascript -->
     <!-- <script src="js/mainmenu.js" charset="utf-8"></script> -->
     <script src="js/editor.js" charset="utf-8"></script>
+    <script src="js/util/fileNames.js" charset="utf-8"></script>
     <!-- <link rel="stylesheet" href="node_modules/electron-tabs/electron-tabs.css"> -->
     <!-- <script src="./app.js" charset="utf-8"></script> -->
     <style>
-      /*.window .pane {
-        background-color: #252426;
-        /*color: white;*/
-      /*}
+      .window .pane {
+        /*background-color: #1a181c;*/
+        color: white;
+      }
+
+      .grad {
+        background: red; /* For browsers that do not support gradients */
+        background: -webkit-linear-gradient(left top, #1a181c, #262328); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(bottom right, #1a181c, #262328); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(bottom right, #1a181c, #262328); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(to bottom right, #1a181c, #262328); /* Standard syntax */
+      }
+
+      li {
+        color: white !important;
+      }
 
       .fileSystem {
         color: red;
-      }*/
+      }
+
+      ::-webkit-scrollbar {
+        background-color: #1a181c;
+        width: .8em
+      }
+
+      ::-webkit-scrollbar-thumb:window-inactive,
+      ::-webkit-scrollbar-thumb {
+        background:  black
+      }
+
+      .titlebar {
+        -webkit-user-select: none;
+        -webkit-app-region: drag;
+      }
+
+      .nav-text {
+        color: #716977 !important;
+      }
+
+      .file-text {
+        color: #685b72 !important;
+      }
     </style>
 </head>
 
 <body>
-    <div class="window">
+    <div class="window grad">
 
         <!-- .toolbar-header sits at the top of your app -->
-        <!-- <header class="toolbar toolbar-header">
-            <h1 class="title">Header the tabs</h1>
-        </header> -->
+        <div class="toolbar toolbar-header titlebar" style="height: 35px !important; text-align: center !important; vertical-align: middle !important; background: #323133 !important; color: white; border: none !important;">
+            <h1 class="title" style="padding-top: 7px; color: #7d5a96 !important; font-size: 14px !important; font-weight: bolder !important;">ID3</h1>
+        </div>
 
         <!-- Your app's content goes inside .window-content -->
         <div class="window-content">
             <div class="pane-group">
-                <div class="pane pane-sm sidebar">
+                <div class="pane pane-sm sidebar grad">
                     <nav class="nav-group">
                         <h5 class="nav-group-title">File System</h5>
                         <span class="nav-group-item" id="select-file">
-                            <span class="icon icon-folder"></span>Open File
+                          <span class="icon icon-folder"></span>
+                          <span class="nav-text">Open File</span>
                         </span>
                         <span class="nav-group-item" id="save-changes">
-                          <span class="icon icon-download"></span> Save File
+                          <span class="icon icon-download"></span>
+                          <span class="nav-text">Save File</span>
                         </span>
                         <span class="nav-group-item" id="create-new-file">
-                          <span class="icon icon-doc-text"></span> New File
+                          <span class="icon icon-doc-text"></span>
+                          <span class="nav-text">New File</span>
                         </span>
                     </nav>
                     <!-- <div> -->
@@ -59,27 +98,27 @@
                             <button type="btn btn-default" id="create-new-file">New File</button> -->
                         <!-- </div> -->
                     <!-- </div> -->
-                    <hr>
-                    <ul class="list-group">
+                    <hr style="border-color: #736084 !important;">
+                    <!-- <ul class="list-group">
                       <li class="list-group-header">
-                        <h5>Opened Files</h5>
-                      </li>
-                        <li class="list-group-item">
+                        <h5 class=" file-text">Opened Files</h5>
+                      </li> -->
+                        <!-- <li class="list-group-item">
                           <span class="icon icon-cancel">&nbsp;</span>
-                          <strong class="fileName">Opened File</strong>
+                          <strong class="fileName file-text">Opened File</strong>
                         </li>
                         <li class="list-group-item">
                           <span class="icon icon-cancel">&nbsp;</span>
-                          <strong class="fileName">Opened File</strong>
+                          <strong class="fileName file-text">Opened File</strong>
                         </li>
                         <li class="list-group-item">
                           <span class="icon icon-cancel">&nbsp;</span>
-                          <strong class="fileName">Opened File</strong>
-                        </li>
-                    </ul>
+                          <strong class="fileName file-text">Opened File</strong>
+                        </li> -->
+                    <!-- </ul> -->
                 </div>
-                <div class="pane">
-                    <div class="tab-group">
+                <div class="pane grad" id="editor" style="overflow-y: hidden; border-left: 2px solid #736084 !important;">
+                    <!-- <div class="tab-group">
                         <div class="tab-item">
                             <span class="icon icon-cancel icon-close-tab"></span> Tab
                         </div>
@@ -92,11 +131,11 @@
                         <div class="tab-item tab-item-fixed">
                             <span class="icon icon-plus"></span>
                         </div>
-                    </div>
-                    <div id="editor" style="height: 97vh; margin-bottom: -10px;"></div>
+                    </div> -->
+                    <!-- <div id="editor" style="height: 100%; margin-bottom: -10px;"></div> -->
                 </div>
-                <div class="pane" id="view">
-                    <iframe id="code" style="width: 100%; height: 95vh; border: none;"></iframe>
+                <div class="pane grad" id="view" style="background-color: #1a181c; border-left: 2px solid #736084 !important;">
+                    <iframe id="code" style="width: 100%; height: 100vh; border: none; margin-bottom: -10px;"></iframe>
                 </div>
             </div>
         </div>
